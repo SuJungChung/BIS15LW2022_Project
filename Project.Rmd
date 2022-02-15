@@ -1,0 +1,27 @@
+---
+title: "Project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Library
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+##pH Data
+```{r}
+ph<- readr::read_csv("ph_data.csv")
+```
+
+
+##Project Code
+```{r}
+ph
+```
+##Questions
+1. 
