@@ -11,13 +11,18 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(janitor)
+library(lubridate)
 ```
 
 ##pH Data
 ```{r}
-ph<- readr::read_csv("ph_data.csv")
+files <- list.files(path="data", pattern = ".csv")
+files
 ```
 
+```{r}
+files_list <- lapply(files, read_csv)
+```
 
 ##Project Code
 ```{r}
