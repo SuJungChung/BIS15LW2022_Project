@@ -16,12 +16,13 @@ library(lubridate)
 
 ##pH Data
 ```{r}
-files <- list.files(path="data", pattern = ".csv")
+files <- list.files(path="data", pattern = ".csv", full.names = TRUE)
 files
 ```
 
 ```{r}
 files_list <- lapply(files, read_csv)
+files_list
 ```
 
 ##Project Code
