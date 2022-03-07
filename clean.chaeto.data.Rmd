@@ -1,0 +1,77 @@
+---
+title: "Final Project: Claire Huntington: Group 7"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(janitor)
+library(here)
+library(naniar)
+library(shiny)
+library(lubridate)
+library(dplyr)
+``` 
+
+Loading data: 
+```{r}
+chaeto_1 <- readr::read_csv("ph_chaeto_set_1.csv")
+```
+```{r}
+chaeto_2 <- readr::read_csv("ph_chaeto_set_2.csv")
+```
+
+```{r}
+chaeto_1 <- clean_names(chaeto_1)
+```
+
+```{r}
+chaeto_1 <- chaeto_1%>%
+  select(-c(date, chn_1_events, time_stamp_utc))%>%
+  rename(ph1_8_2 = p_h_4,
+         ph1_7_6 = p_h_5,
+         ph2_7_6 = p_h_6,
+         ph3_7_6 = p_h_7,
+         ph2_8_2 = p_h_8,
+         ph3_8_2 = p_h_9)
+```
+```{r}
+chaeto_1
+```
+
+```{r}
+chaeto_1 <- chaeto_1[c(1,3,4,5,2,6,7)]
+```
+```{r}
+chaeto_1
+```
+
+```{r}
+chaeto_2 <- clean_names(chaeto_2)
+```
+```{r}
+chaeto_2 <- chaeto_2%>%
+  select(-c(date, chn_1_events, time_stamp_utc))%>%
+  rename(ph1_8_2 = p_h_5,
+         ph1_7_6 = p_h_4,
+         ph2_7_6 = p_h_7,
+         ph3_7_6 = p_h_9,
+         ph2_8_2 = p_h_6,
+         ph3_8_2 = p_h_8)
+```
+```{r}
+chaeto_2
+```
+```{r}
+chaeto_2 <- chaeto_2[c(1,2,5,7,3,4,6)]
+```
+
+
+
+
+
+
