@@ -1,0 +1,111 @@
+---
+title: "bis15L_final.project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+library(lubridate)
+```
+
+```{r}
+nanno_1<-readr::read_csv("ph_nanno_1.csv")
+```
+```{r}
+nanno_2<-readr::read_csv("ph_nanno_2.csv")
+```
+```{r}
+nanno_1<-clean_names(nanno_1)
+```
+
+```{r}
+glimpse(nanno_1)
+```
+```{r}
+nanno_1%>%
+  select(-c(x8))
+```
+```{r}
+nanno_1<-nanno_1 %>% 
+rename(ph1_7_6 = ph_7_6_2,
+       ph1_8_2 = ph_8_2_3,
+       ph2_7_6 = ph_7_6_4,
+       ph2_8_2 = ph_8_2_5,
+       ph3_8_2 = ph_8_2_6, 
+       ph3_7_6 = ph_7_6_7)
+```
+```{r}
+nanno_1
+```
+```{r}
+glimpse(nanno_1)
+```
+
+```{r}
+nanno_1
+```
+`
+```{r}
+nanno_1<-nanno_1[,c(1,2,4,7,3,5,6)]
+```
+```{r}
+nanno_1
+```
+```{r}
+nanno_2
+```
+```{r}
+nanno_2<-clean_names(nanno_2)
+```
+```{r}
+nanno_2<-nanno_2 %>% 
+rename(ph1_7_6 = ph_7_6_2,
+       ph1_8_2 = ph_8_2_4,
+       ph2_7_6 = ph_7_6_3,
+       ph2_8_2 = ph_8_2_6,
+       ph3_8_2 = ph_8_2_7, 
+       ph3_7_6 = ph_7_6_5)
+```
+```{r}
+nanno_2
+```
+```{r}
+nanno_2 %>% 
+  select(-c(x8))
+```
+```{r}
+nanno_2<-nanno_2[,c(1,2,3,5,4,6,7)]
+```
+```{r}
+nanno_2
+```
+
+
+
+
+
