@@ -19,10 +19,10 @@ library(dplyr)
 
 Loading data: 
 ```{r}
-chaeto_1 <- readr::read_csv("ph_chaeto_set_1.csv")
+chaeto_1 <- readr::read_csv("../raw_data/ph_chaeto_set_1.csv")
 ```
 ```{r}
-chaeto_2 <- readr::read_csv("ph_chaeto_set_2.csv")
+chaeto_2 <- readr::read_csv("../raw_data/ph_chaeto_set_2.csv")
 ```
 
 ```{r}
@@ -70,7 +70,13 @@ chaeto_2
 chaeto_2 <- chaeto_2[c(1,2,5,7,3,4,6)]
 ```
 
+```{r}
 
+```
+
+```{r}
+ggplot(aes(x=relative_time, y=, color=""))
+```
 
 
 
