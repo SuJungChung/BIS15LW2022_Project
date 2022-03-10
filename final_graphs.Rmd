@@ -1,0 +1,241 @@
+---
+title: "graphs"
+author: "Natalie Rizzo"
+date: "3/9/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+getwd()
+```
+```{r}
+library("emmeans")
+```
+
+```{r}
+chaeto1_clean
+```
+```{r}
+chaeto1_clean$seconds<-as.factor(chaeto1_clean$seconds)
+```
+
+```{r}
+chaeto1_clean %>% 
+  ggplot(aes(x=as.numeric(seconds), y=ph, color=flask))+geom_line()+labs(title = "Chaeto pH Fluctuations over 1 Week")
+```
+```{r}
+nanno1_clean %>% 
+  ggplot(aes(x=as.numeric(seconds), y=ph, color=flask))+geom_line()+labs(title = "Nanno pH Fluctuations over 1 Week")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+```{r}
+nanno1_clean 
+```
+```{r}
+nanno1_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph=mean(ph), std_ph=sd(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph, fill=flask,label=round(mean_ph, 2)))+geom_col()+labs(title = "Average pH for Nanno Set 1")+theme(axis.text.x = element_text(angle = 60, hjust = 1))+geom_text(nudge_y = 0.5)
+```
+```{r}
+nanno2_clean<-
+read_csv("/Users/natalierizzo/Desktop/BIS15W2022_nrizzo/BIS15LW2022_Project-main/nanno2_clean.csv")
+```
+
+
+```{r}
+nanno2_clean
+```
+```{r}
+nanno2_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph=mean(ph))
+```
+
+```{r}
+nanno2_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph=mean(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph, fill=flask))+geom_col()+labs(title = "Average pH for Nanno Set 2")
+```
+
+
+```{r}
+chaeto1_clean<- read_csv("/Users/natalierizzo/Desktop/BIS15W2022_nrizzo/BIS15LW2022_Project-main/chaeto1_clean.csv")
+```
+
+```{r}
+chaeto1_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph_c=mean(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph_c, label=round(mean_ph_c, 2),fill=flask))+geom_col()+geom_text(nudge_y = 0.5)+labs(title = "Average pH for Chaeto Set 1")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+```{r}
+chaeto2_clean<- read_csv("/Users/natalierizzo/Desktop/BIS15W2022_nrizzo/chaeto2_clean.csv")
+```
+```{r}
+chaeto2_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph_c=mean(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph_c, fill=flask))+geom_col()+labs(title = "Average pH for Chaeto Set 2")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+```{r}
+datas<- merge(chaeto1_clean, nanno1_clean, by="seconds")
+```
+```{r}
+datas
+```
+```{r}
+nanno1_clean
+```
+
+```{r}
+nanno1_wide <- nanno1_clean %>% 
+  pivot_wider(names_from = "flask", values_from= "ph")
+nanno1_wide 
+```
+```{r}
+ph7_6<- nanno1_wide %>% 
+  select(`pH  7.6...4`,`pH  7.6...6`,`pH  7.6...9`) %>% 
+  rowMeans()
+```
+```{r}
+ph8_2<- nanno1_wide %>% 
+  select(`pH  8.2...5`,`pH  8.2...7`,`pH  8.2...8`) %>% 
+  rowMeans()
+```
+```{r}
+new_nanno_wide<- cbind(nanno1_wide, ph7_6, ph8_2)
+new_nanno_wide
+```
+```{r}
+new_nanno_long <- new_nanno_wide%>%
+  select(seconds, ph7_6, ph8_2)%>%
+  pivot_longer(-seconds,
+    names_to = "ph",
+    values_to = "flask"
+  )
+new_nanno_long
+```
+```{r}
+new_nanno_long %>% 
+  ggplot(aes(x=seconds, y=flask, color=ph, group=1))+geom_line()
+```
+```{r}
+chaeto1_clean<-
+read_csv("Desktop/BIS15W2022_nrizzo/chaeto2_clean.csv")
+```
+```{r}
+read_csv("Desktop/BIS15W2022_nrizzo/BIS15LW2022_Project-main/nanno1_clean.csv")
+```
+```{r}
+chaeto1_clean %>% 
+  summarise(max_ph=max(ph), min_ph=min(ph), med_ph=median(ph))
+```
+```{r}
+chaeto1_clean %>% 
+  filter(ph<=10&ph>=5) %>%
+  ggplot(aes(x=as.numeric(seconds), y=ph, color=flask))+geom_line()+labs(title = "Chaeto Cleaned pH Over 1 Week")
+  
+```
+```{r}
+chaeto1_ph<-
+chaeto1_clean %>% 
+  filter(ph<=10&ph>=5)
+```
+```{r}
+chaeto1_ph %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph_c=mean(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph_c, label=round(mean_ph_c, 2),fill=flask))+geom_col()+geom_text(nudge_y = 0.5)+labs(title = "Average pH for Cleaned Chaeto Set 1")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+```{r}
+nanno1_clean<-
+read_csv("Desktop/BIS15W2022_nrizzo/BIS15LW2022_Project-main/nanno1_clean.csv")
+```
+```{r}
+nanno1_clean %>% 
+  summarise(max_ph=max(ph), min_ph=min(ph), med_ph=median(ph))
+```
+```{r}
+nanno1_clean %>% 
+  filter(ph<=10&ph>=5) %>%
+  ggplot(aes(x=as.numeric(seconds), y=ph, color=flask))+geom_line()+labs(title = "Nanno Cleaned pH Over 1 Week")
+```
+```{r}
+nanno1_ph<-
+  nanno1_clean %>% 
+  filter(ph<=10&ph>=5)
+```
+```{r}
+nanno1_ph %>%
+  group_by(flask) %>% 
+  summarise(mean_ph_c=mean(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph_c, label=round(mean_ph_c, 2),fill=flask))+geom_col()+geom_text(nudge_y = 0.5)+labs(title = "Average pH for Cleaned Nanno Set 1")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+  
+```
+```{r}
+chaeto1_ph
+```
+
+```{r}
+chaeto_76<-
+chaeto1_ph %>% 
+  filter(flask=="ph1_7_6"|flask=="ph2_7_6"| flask=="ph3_7_6")
+```
+```{r}
+chaeto_82<-
+  chaeto1_ph %>% 
+  filter(flask=="ph1_8_2"|flask=="ph2_8_2"|flask=="ph3_8_2")
+```
+```{r}
+chaeto_76 %>%
+  ggplot(aes(x=as.numeric(seconds), y=ph, color=flask))+geom_line()+labs(title = "Chaeto 7.6 pH Over 1 Week")
+  
+```
+```{r}
+chaeto_82 %>% 
+  ggplot(aes(x=as.numeric(seconds), y=ph, color=flask))+geom_line()+labs(title = "Chaeto 8.2 pH Over 1 Week")
+```
+```{r}
+nanno1_ph
+```
+
+```{r}
+nanno1_new_wide<-
+nanno1_ph %>% 
+  pivot_wider(names_from = flask, values_from=ph)
+```
+```{r}
+nanno1_new_wide
+```
+
+```{r}
+nanno1_new_wide %>% 
+  rename(ph_76_4=`pH  7.6...4`)
+```
+```{r}
+nanno1wide<-
+nanno1_new_wide %>% 
+  rename(ph_82_5=`pH  8.2...5`,
+         ph_76_6=`pH  7.6...6`,
+         ph_82_7=`pH  8.2...7`,
+         ph_82_8=`pH  8.2...8`,
+         ph_76_9=`pH  7.6...9`,
+         ph_76_4=`pH  7.6...4`)
+```
+```{r}
+nanno1wide
+```
+
+```{r}
+nanno1wide %>% 
+  pivot_longer()
+```
+
+
+
+
+
