@@ -72,13 +72,9 @@ chaeto_2 <- chaeto_2[c(1,2,5,7,3,4,6)]
 
 ```{r}
 chaeto_1%>%
-ggplot(aes(x=relative_time, y=ph1_7_6, ph1_8_2, ph1_8_2))+geom_line()
+ggplot(aes(x=relative_time, y=ph1_7_6))+geom_line()
 ```
 
 ```{r}
-ggplot(aes(x=relative_time, y=, color=""))
+
 ```
-
-
-
-
