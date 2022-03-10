@@ -1,0 +1,97 @@
+---
+title: "graphs"
+author: "Natalie Rizzo"
+date: "3/9/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+getwd()
+```
+
+```{r}
+chaeto1_clean
+```
+
+```{r}
+chaeto1_clean %>% 
+  ggplot(aes(x=seconds, y=ph, color=flask))+geom_line()+labs(title = "Chaeto pH Fluctuations over 1 Week")
+```
+```{r}
+nanno1_clean %>% 
+  ggplot(aes(x=as.numeric(seconds), y=ph, color=flask))+geom_line()+labs(title = "Nanno pH Fluctuations over 1 Week")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+```{r}
+nanno1_clean 
+```
+```{r}
+nanno1_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph=mean(ph), std_ph=sd(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph, fill=flask,label=round(mean_ph, 2)))+geom_col()+labs(title = "Average pH for Nanno Set 1")+theme(axis.text.x = element_text(angle = 60, hjust = 1))+geom_text(nudge_y = 0.5)
+```
+```{r}
+nanno2_clean<-
+read_csv("/Users/natalierizzo/Desktop/BIS15W2022_nrizzo/BIS15LW2022_Project-main/nanno2_clean.csv")
+```
+
+
+```{r}
+nanno2_clean
+```
+```{r}
+nanno2_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph=mean(ph))
+```
+
+```{r}
+nanno2_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph=mean(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph, fill=flask))+geom_col()+labs(title = "Average pH for Nanno Set 2")
+```
+
+
+```{r}
+chaeto1_clean<- read_csv("/Users/natalierizzo/Desktop/BIS15W2022_nrizzo/BIS15LW2022_Project-main/chaeto1_clean.csv")
+```
+
+```{r}
+chaeto1_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph_c=mean(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph_c, label=round(mean_ph_c, 2),fill=flask))+geom_col()+geom_text(nudge_y = 0.5)+labs(title = "Average pH for Chaeto Set 1")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+```{r}
+chaeto2_clean<- read_csv("/Users/natalierizzo/Desktop/BIS15W2022_nrizzo/chaeto2_clean.csv")
+```
+```{r}
+chaeto2_clean %>% 
+  group_by(flask) %>% 
+  summarise(mean_ph_c=mean(ph)) %>% 
+  ggplot(aes(x=flask, y=mean_ph_c, fill=flask))+geom_col()+labs(title = "Average pH for Chaeto Set 2")+theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+```{r}
+both<-
+rbind(chaeto1_clean & nanno1_clean)
+both
+```
+```{r}
+both %>% 
+  group_by(species) %>% 
+  mutate(ph7_6=selec
+  summarise(mean_ph=mean(ph)) %>% 
+  ggplot(aes(x=species, y=mean_ph))+geom_col()
+```
+```{r}
+both %>% 
+  group_by(species) %>% 
+  filter(flask==ends_with("7_6"))
+```
+
+
+
