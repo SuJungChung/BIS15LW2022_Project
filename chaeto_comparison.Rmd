@@ -7,6 +7,7 @@ This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
+## Library
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(janitor)
@@ -17,7 +18,7 @@ library(lubridate)
 library(dplyr)
 ``` 
 
-Loading data: 
+## Loading Data
 ```{r}
 chaeto <- readr::read_csv("new_clean_data/chaeto1_clean.csv")
 ```
@@ -26,6 +27,7 @@ chaeto <- readr::read_csv("new_clean_data/chaeto1_clean.csv")
 ```{r}
 chaeto
 ```
+## Code
 ```{r}
 chaeto_wide <- chaeto %>%
   pivot_wider(
@@ -56,13 +58,21 @@ new_chaeto_wide
 new_chaeto_long <- new_chaeto_wide%>%
   select(seconds, ph7_6, ph8_2)%>%
   pivot_longer(-seconds,
-    names_to = "ph",
-    values_to = "flask"
+    names_to = "flask",
+    values_to = "ph"
   )
 new_chaeto_long
 ```
 ```{r}
 new_chaeto_long%>%
-  ggplot(aes(x=seconds, y=flask, color=ph))+
-  geom_line()
+  ggplot(aes(x=seconds, y=ph, color=flask))+
+  geom_line()+
+  labs(
+    title = expression(paste("pH readings of",italic(" C. gracilis "))),
+    x = "Time (seconds)",
+    y= "pH")+
+    scale_color_discrete(
+    labels = c("ph7_6" = "pH 7.6",
+               "ph8_2" = "pH 8.2")
+    )
 ```

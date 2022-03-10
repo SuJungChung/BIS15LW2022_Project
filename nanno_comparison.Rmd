@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Library
 ```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(janitor)
@@ -23,7 +24,7 @@ library(dplyr)
 ```{r}
 nanno1_clean <- readr::read_csv("new_clean_data/nanno1_clean.csv")
 ```
-
+## Code
 ```{r}
 nanno1_wide <- nanno1_clean %>% 
   pivot_wider(names_from = "flask", values_from= "ph")
@@ -47,14 +48,14 @@ new_nanno_wide
 new_nanno_long <- new_nanno_wide%>%
   select(seconds, ph7_6, ph8_2)%>%
   pivot_longer(-seconds,
-    names_to = "ph",
-    values_to = "flask"
+    names_to = "flask",
+    values_to = "ph"
   )
 new_nanno_long
 ```
 ```{r}
 new_nanno_long %>% 
-  ggplot(aes(x=seconds, y=flask, color=ph))+
+  ggplot(aes(x=seconds, y=ph, color=flask))+
   geom_line()+
   labs(
     title = expression(paste("pH readings of",italic(" N. oculata "))),
